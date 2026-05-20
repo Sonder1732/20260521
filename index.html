@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>520专属 | 我们的浪漫回忆</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary-color: #ff6b9d;
+            --secondary-color: #ffa1c3;
+            --accent-color: #ff4081;
+            --light-pink: #ffe6f0;
+            --dark-pink: #d81b60;
+            --text-color: #5a3d5c;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffe6f0 0%, #fff0f7 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 背景装饰 */
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .heart {
+            position: absolute;
+            color: rgba(255, 107, 157, 0.2);
+            font-size: 20px;
+            animation: float 8s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+        
+        /* 头部 */
+        header {
+            text-align: center;
+            padding: 20px 0 30px;
+            position: relative;
+        }
+        
+        .title {
+            font-size: 2.8rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0 rgba(255, 192, 203, 0.5);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .title::after {
+            content: "❤";
+            position: absolute;
+            right: -40px;
+            top: -5px;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--dark-pink);
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+        
+        /* 主内容区域 */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        /* 手风琴样式 */
+        .accordion {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.15);
+            overflow: hidden;
+        }
+        
+        .accordion-item {
+            border-bottom: 1px solid rgba(255, 107, 157, 0.1);
+        }
+        
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .accordion-header {
+            padding: 20px 25px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .accordion-header:hover {
+            background: rgba(255, 107, 157, 0.05);
+        }
+        
+        .accordion-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .accordion-header h2 i {
+            font-size: 1.2rem;
+        }
+        
+        .accordion-icon {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            transition: transform 0.3s;
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            padding: 0 25px;
+        }
+        
+        .accordion-item.active .accordion-content {
+            max-height: 1000px;
+            padding-bottom: 25px;
+        }
+        
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        
+        /* 照片网格 */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .photo-item {
+            border-radius: 12px;
+            overflow: hidden;
+            height: 150px;
+            background: linear-gradient(45deg, var(--light-pink), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .photo-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* 描述墙 */
+        .description-box {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.15);
+        }
+        
+        .description-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .description-card {
+            background: linear-gradient(135deg, #fff0f7, #ffe6f0);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid var(--accent-color);
+            transition: all 0.3s;
+        }
+        
+        .description-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 107, 157, 0.2);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title i {
+            font-size: 1.2rem;
+        }
+        
+        .card-content {
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+        
+        /* 香菜爱好特殊卡片 */
+        .special-card {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-left: 5px solid #4caf50;
+        }
+        
+        .special-card .card-title {
+            color: #2e7d32;
+        }
+        
+        /* 弹幕容器 */
+        .danmaku-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+        
+        .danmaku {
+            position: absolute;
+            white-space: nowrap;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            animation: danmaku-move linear forwards;
+        }
+        
+        @keyframes danmaku-move {
+            from {
+                transform: translateX(100vw);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+        
+        /* 底部 */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--dark-pink);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 107, 157, 0.2);
+        }
+        
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+        
+        .modal-title {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+        
+        .modal-image {
+            width: 100%;
+            border-radius: 10px;
+            margin: 20px 0;
+            max-height: 300px;
+            object-fit: cover;
+        }
+        
+        .modal-message {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.2rem;
+            }
+            
+            .title::after {
+                right: -30px;
+                font-size: 1.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .description-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .photo-item {
+                height: 120px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .title::after {
+                right: -25px;
+                font-size: 1.2rem;
+                top: 0;
+            }
+            
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .accordion-header, .description-box {
+                padding: 20px;
+            }
+            
+            .description-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景漂浮的心 -->
+    <div class="hearts-bg" id="hearts-bg"></div>
+    
+    <!-- 弹幕容器 -->
+    <div class="danmaku-container" id="danmaku-container"></div>
+    
+    <div class="container">
+        <header>
+            <h1 class="title">520 · 我们的专属回忆</h1>
+            <p class="subtitle">每一天都因为有你而变得格外美好 ❤</p>
+        </header>
+        
+        <main class="main-content">
+            <!-- 手风琴回忆相册 -->
+            <div class="accordion">
+                <!-- 潮玩中心 -->
+                <div class="accordion-item active">
+                    <div class="accordion-header">
+                        <h2><i class="fas fa-gamepad"></i> 潮玩中心 · 第一次约会</h2>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p style="margin-bottom: 15px; color: #666;">点击照片可查看大图</p>
+                        <div class="photo-grid">
+                            <div class="photo-item" data-modal="play1">
+                                <!-- 请将图片路径替换为您的图片路径 -->
+                                <img src="./images/our-memories/play1.jpg" alt="潮玩中心回忆">
+                            </div>
+                            <div class="photo-item" data-modal="play2">
+                                <img src="./images/our-memories/play2.jpg" alt="潮玩中心回忆">
+                            </div>
+                            <div class="photo-item" data-modal="play3">
+                                <img src="./images/our-memories/play3.jpg" alt="潮玩中心回忆">
+                            </div>
+                            <div class="photo-item" data-modal="play4">
+                                <img src="./images/our-memories/play4.jpg" alt="潮玩中心回忆">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 一起做饭 -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h2><i class="fas fa-utensils"></i> 一起做饭的温馨时光</h2>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p style="margin-bottom: 15px; color: #666;">点击照片可查看大图</p>
+                        <div class="photo-grid">
+                            <div class="photo-item" data-modal="cook1">
+                                <img src="./images/our-memories/cook1.jpg" alt="一起做饭">
+                            </div>
+                            <div class="photo-item" data-modal="cook2">
+                                <img src="./images/our-memories/cook2.jpg" alt="一起做饭">
+                            </div>
+                            <div class="photo-item" data-modal="cook3">
+                                <img src="./images/our-memories/cook3.jpg" alt="一起做饭">
+                            </div>
+                            <div class="photo-item" data-modal="cook4">
+                                <img src="./images/our-memories/cook4.jpg" alt="一起做饭">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 武汉长江 -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h2><i class="fas fa-water"></i> 武汉长江 · 江边旅行</h2>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p style="margin-bottom: 15px; color: #666;">点击照片可查看大图</p>
+                        <div class="photo-grid">
+                            <div class="photo-item" data-modal="river1">
+                                <img src="./images/our-memories/river1.jpg" alt="江边旅行">
+                            </div>
+                            <div class="photo-item" data-modal="river2">
+                                <img src="./images/our-memories/river2.jpg" alt="江边旅行">
+                            </div>
+                            <div class="photo-item" data-modal="river3">
+                                <img src="./images/our-memories/river3.jpg" alt="江边旅行">
+                            </div>
+                            <div class="photo-item" data-modal="river4">
+                                <img src="./images/our-memories/river4.jpg" alt="江边旅行">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 罗曼小镇 -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h2><i class="fas fa-landmark"></i> 罗曼小镇的浪漫时光</h2>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p style="margin-bottom: 15px; color: #666;">点击照片可查看大图</p>
+                        <div class="photo-grid">
+                            <div class="photo-item" data-modal="town1">
+                                <img src="./images/our-memories/town1.jpg" alt="罗曼小镇">
+                            </div>
+                            <div class="photo-item" data-modal="town2">
+                                <img src="./images/our-memories/town2.jpg" alt="罗曼小镇">
+                            </div>
+                            <div class="photo-item" data-modal="town3">
+                                <img src="./images/our-memories/town3.jpg" alt="罗曼小镇">
+                            </div>
+                            <div class="photo-item" data-modal="town4">
+                                <img src="./images/our-memories/town4.jpg" alt="罗曼小镇">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 她的美图集 -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h2><i class="fas fa-camera"></i> 你的美图集</h2>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p style="margin-bottom: 15px; color: #666;">我眼中最美的你</p>
+                        <div class="photo-grid">
+                            <div class="photo-item" data-modal="her1">
+                                <img src="./images/her-gallery/gallery1.jpg" alt="她的美图">
+                            </div>
+                            <div class="photo-item" data-modal="her2">
+                                <img src="./images/her-gallery/gallery2.jpg" alt="她的美图">
+                            </div>
+                            <div class="photo-item" data-modal="her3">
+                                <img src="./images/her-gallery/gallery3.jpg" alt="她的美图">
+                            </div>
+                            <div class="photo-item" data-modal="her4">
+                                <img src="./images/her-gallery/gallery4.jpg" alt="她的美图">
+                            </div>
+                            <div class="photo-item" data-modal="her5">
+                                <img src="./images/her-gallery/gallery5.jpg" alt="她的美图">
+                            </div>
+                            <div class="photo-item" data-modal="her6">
+                                <img src="./images/her-gallery/gallery6.jpg" alt="她的美图">
+                            </div>
+                            <div class="photo-item" data-modal="her7">
+                                <img src="./images/her-gallery/gallery7.jpg" alt="她的美图">
+                            </div>
+                            <div class="photo-item" data-modal="her8">
+                                <img src="./images/her-gallery/gallery8.jpg" alt="她的美图">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 描述墙 -->
+            <div class="description-box">
+                <h2 class="section-title"><i class="fas fa-star"></i> 我眼中的你</h2>
+                <p style="margin-bottom: 20px; color: #666;">你所有美好的样子，我都记得</p>
+                
+                <div class="description-grid">
+                    <div class="description-card">
+                        <h3 class="card-title"><i class="fas fa-heart"></i> 善良的你</h3>
+                        <p class="card-content">你总是那么善良，关心身边的每一个人。看到需要帮助的人，你总会伸出援手。你的善良像阳光一样温暖，照亮了周围的人，也温暖了我的心。</p>
+                    </div>
+                    
+                    <div class="description-card">
+                        <h3 class="card-title"><i class="fas fa-hands-helping"></i> 贴心的你</h3>
+                        <p class="card-content">你总是那么细心体贴，记得我喜欢的每一样东西，在我需要的时候总能给我最温暖的陪伴。你的贴心让我感受到被深深爱着的幸福。</p>
+                    </div>
+                    
+                    <div class="special-card description-card">
+                        <h3 class="card-title"><i class="fas fa-leaf"></i> 爱吃香菜的你</h3>
+                        <p class="card-content">还记得第一次发现你也爱吃香菜时的惊喜吗？这个特别的爱好让我们又多了一个共同点。每次一起吃火锅，你总是会多加一份香菜，那个满足的表情特别可爱。</p>
+                    </div>
+                    
+                    <div class="description-card">
+                        <h3 class="card-title"><i class="fas fa-laugh-beam"></i> 爱笑的你</h3>
+                        <p class="card-content">你的笑容是我见过最美的风景。无论是开心大笑时的爽朗，还是害羞时的抿嘴一笑，每一个笑容都能瞬间点亮我的世界，让所有的烦恼都烟消云散。</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>❤ 这个网页只为你一个人而制作 ❤</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">© 2026 520专属回忆 | 爱你的每一天</p>
+        </footer>
+    </div>
+    
+    <!-- 模态框（点击照片时显示） -->
+    <div class="modal" id="image-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title" id="modal-title">我们的甜蜜回忆</h3>
+            <img class="modal-image" id="modal-image" src="" alt="">
+            <div class="modal-message" id="modal-message">
+                这是我们的美好瞬间，每次看到都会让我心动。
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 创建背景漂浮的心
+        function createHearts() {
+            const heartsBg = document.getElementById('hearts-bg');
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.fontSize = `${Math.random() * 20 + 15}px`;
+                heart.style.animationDelay = `${Math.random() * 8}s`;
+                heart.style.color = `rgba(255, ${Math.floor(Math.random() * 100 + 100)}, ${Math.floor(Math.random() * 150 + 100)}, ${Math.random() * 0.3 + 0.2})`;
+                heartsBg.appendChild(heart);
+            }
+        }
+        
+        // 自动飘落虚拟鲜花
+        function createFlowers() {
+            setInterval(() => {
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(() => {
+                        createFlower();
+                    }, i * 300);
+                }
+            }, 3000); // 每3秒创建一批花
+        }
+        
+        function createFlower() {
+            const flower = document.createElement('div');
+            flower.innerHTML = '❀';
+            flower.style.position = 'fixed';
+            flower.style.left = `${Math.random() * 100}%`;
+            flower.style.top = '-50px';
+            flower.style.fontSize = `${Math.random() * 20 + 20}px`;
+            flower.style.color = `hsl(${Math.random() * 60 + 300}, 100%, 70%)`;
+            flower.style.zIndex = '9999';
+            flower.style.pointerEvents = 'none';
+            flower.style.transition = 'transform 2s, opacity 2s';
+            
+            document.body.appendChild(flower);
+            
+            // 动画效果
+            setTimeout(() => {
+                const endX = (Math.random() - 0.5) * 200;
+                flower.style.transform = `translate(${endX}px, calc(100vh + 50px)) rotate(${Math.random() * 720}deg)`;
+                flower.style.opacity = '0';
+            }, 10);
+            
+            // 移除花朵
+            setTimeout(() => {
+                if (flower.parentNode) {
+                    document.body.removeChild(flower);
+                }
+            }, 2500);
+        }
+        
+        // 甜蜜情话弹幕
+        function createDanmaku() {
+            const messages = [
+                "我爱你，不仅仅因为你是谁，还因为和你在一起时，我是谁。",
+                "你是我今生最美的遇见，是我此生最值得的守候。",
+                "你的笑容是我每天最期待的风景，你的声音是我听过最美的旋律。",
+                "和你在一起的每一刻，都让我感受到生命的美好。",
+                "你是我生命中最珍贵的礼物，是我愿意用一生去珍惜的人。",
+                "520，是我爱你的每一天。",
+                "在潮玩中心看到你开心的样子，我就知道你就是我要找的人。",
+                "一起做饭的时光，是我最珍惜的日常。",
+                "在长江边散步的时候，希望那条路永远没有尽头。",
+                "罗曼小镇的每一处风景，都因为有你而更加浪漫。"
+            ];
+            
+            setInterval(() => {
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                createSingleDanmaku(message);
+            }, 4000); // 每4秒发送一条弹幕
+        }
+        
+        function createSingleDanmaku(text) {
+            const container = document.getElementById('danmaku-container');
+            const danmaku = document.createElement('div');
+            danmaku.classList.add('danmaku');
+            danmaku.textContent = text;
+            
+            // 随机位置
+            const top = Math.random() * 80 + 10; // 避免太靠顶部和底部
+            danmaku.style.top = `${top}%`;
+            
+            // 随机颜色
+            const colors = ['#ff4081', '#ff6b9d', '#d81b60', '#ff1493', '#c2185b'];
+            danmaku.style.color = colors[Math.floor(Math.random() * colors.length)];
+            
+            // 随机速度
+            const duration = Math.random() * 15 + 10; // 10-25秒
+            danmaku.style.animationDuration = `${duration}s`;
+            
+            container.appendChild(danmaku);
+            
+            // 动画结束后移除
+            setTimeout(() => {
+                if (danmaku.parentNode) {
+                    container.removeChild(danmaku);
+                }
+            }, duration * 1000);
+        }
+        
+        // 手风琴功能
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const accordionItem = this.parentElement;
+                accordionItem.classList.toggle('active');
+                
+                // 关闭其他打开的手风琴项
+                document.querySelectorAll('.accordion-item').forEach(item => {
+                    if (item !== accordionItem && item.classList.contains('active')) {
+                        item.classList.remove('active');
+                    }
+                });
+            });
+        });
+        
+        // 模态框功能
+        const modal = document.getElementById('image-modal');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalImage = document.getElementById('modal-image');
+        
+        // 照片点击事件
+        document.querySelectorAll('.photo-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const modalType = this.getAttribute('data-modal');
+                
+                // 简单根据图片类型设置标题
+                const titles = {
+                    'play': '潮玩中心回忆',
+                    'cook': '一起做饭的时光',
+                    'river': '武汉长江旅行',
+                    'town': '罗曼小镇',
+                    'her': '最美的你'
+                };
+                
+                // 根据前缀确定标题
+                let title = '我们的甜蜜回忆';
+                for (const [prefix, titleText] of Object.entries(titles)) {
+                    if (modalType.startsWith(prefix)) {
+                        title = titleText;
+                        break;
+                    }
+                }
+                
+                modalTitle.textContent = title;
+                modalMessage.textContent = '这是我们的美好瞬间，每次看到都会让我心动。';
+                modalImage.src = this.querySelector('img').src;
+                modal.style.display = 'flex';
+            });
+        });
+        
+        // 关闭模态框
+        closeModalBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        // 点击模态框外部关闭
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // 显示提示消息
+        function showToast(message) {
+            const existingToast = document.querySelector('.toast-message');
+            if (existingToast) {
+                document.body.removeChild(existingToast);
+            }
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-message';
+            toast.textContent = message;
+            toast.style.position = 'fixed';
+            toast.style.bottom = '20px';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.background = 'rgba(255, 107, 157, 0.9)';
+            toast.style.color = 'white';
+            toast.style.padding = '15px 25px';
+            toast.style.borderRadius = '30px';
+            toast.style.zIndex = '10000';
+            toast.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
+            toast.style.fontWeight = '600';
+            toast.style.maxWidth = '80%';
+            toast.style.textAlign = 'center';
+            toast.style.animation = 'fadeInOut 3s forwards';
+            
+            document.body.appendChild(toast);
+            
+            // 3秒后移除
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    document.body.removeChild(toast);
+                }
+            }, 3000);
+        }
+        
+        // 添加CSS动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                20%, 80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createHearts();
+            createFlowers();
+            createDanmaku();
+            
+            // 页面加载后显示欢迎消息
+            setTimeout(() => {
+                showToast('欢迎来到我们的520专属回忆！❤');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
